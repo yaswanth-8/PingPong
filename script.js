@@ -3,9 +3,9 @@ let compPaddle = document.querySelector('#comp-paddle')
 let ball= document.querySelector('#ball')
 
 userPaddle.style.marginLeft = '30px'
-userPaddle.style.marginTop = '0px'
+userPaddle.style.marginTop = '262px'
 compPaddle.style.marginLeft = '1048px'
-compPaddle.style.marginTop = '0px'
+compPaddle.style.marginTop = '262px'
 ball.style.marginLeft = '532px'
 ball.style.marginTop = '262px'
 
@@ -39,14 +39,14 @@ document.addEventListener('keyup',(e)=>{
         S_Pressed = false
     }
 })
-
-gameloop()
+let compLevel = 0.01
+ gameloop()
 
 function reset(){
     clearInterval(ID)
     Vx = -1
     Vy = -1
-    let V = Math.sqrt(Math.sqrt(Math.pow(Vx,2)+Math.pow(Vy,2)))
+    V = Math.sqrt(Math.sqrt(Math.pow(Vx,2)+Math.pow(Vy,2)))
     ball.style.marginLeft = '534px'
     ball.style.marginTop = '262px'
     gameloop()
@@ -56,11 +56,13 @@ function gameloop(){
     setTimeout(()=>{
         ID = setInterval(()=>{
             if(marginLeft(ball)<0){
+                compLevel -= 0.02
                 document.querySelector('#comp-score').innerHTML= Number(document.querySelector('#comp-score').innerHTML)+1
                 reset()
                 return
             }
             if((marginLeft(ball)+20)>1088){
+                compLevel += 0.04
                 document.querySelector('#user-score').innerHTML= Number(document.querySelector('#user-score').innerHTML)+1
                 reset()
                 return
@@ -88,7 +90,7 @@ function gameloop(){
                 Vy = V* Math.sin(angle)
             }
 
-            let compLevel = 0.05
+            
             compPaddle.style.marginTop = `${marginTop(compPaddle)+((ball.centerY - (marginTop(compPaddle)+36)))* compLevel}px`
 
             ball.style.marginLeft = `${marginLeft(ball)+Vx}px`
